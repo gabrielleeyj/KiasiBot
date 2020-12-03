@@ -1,0 +1,19 @@
+name: Test Go 
+
+on:
+  push:
+    branches: main
+   
+jobs:
+  my-job:
+    name: Setup ubuntu
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '^1.15.5' # Get latest Go version to download (if necessary) and use.
+    - run: |
+        go version
+        go test .
