@@ -5,10 +5,15 @@
 
 Telegram Chatbot
 
+<!--TIMESTAMP:{"format": "dddd, MMMM Do YYYY, h:mm:ss"}-->
 # Updates
 | Date     |      Updates      | 
 |----------|:-------------:|
 | 03/12/2020 |  Initial Commit |
+| 03/12/2020 | Setup Workflow |
+
+# Activity
+<!--GITHUB_ACTIVITY:{"rows": 5, "raw": true}-->
 
 # Description
 
