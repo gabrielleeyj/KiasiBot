@@ -1,54 +1,98 @@
-package main
+package db
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
-// User is the model representation of a user. Users are stored in the User Service.
-type User struct {
-	UUID string `json:"-"`
-	Location
-	Time
-}
-
-// Location is the representation of the users location.
-type Location struct {
-	Longitude, Latitude string `json:"longitude,latitude"`
-}
-
-// Time is the representation of the users time.
-type Time struct {
-	Day, Month, Year int `json:"day,month,year"`
-	Hour, Min        int `json:"hour,min"`
-}
-
-// DataRepository is the interface that the data repository should conform to.
-type DataRepository interface {
+// UserRepository Interface represents the underlying implementations for the database driver
+type UserRepository interface {
 	Create(user User) (*User, error)
-	AddLocation(ul Location) (*Location, error)
+	Delete(id int) error
+	Update(id int, user User) (*User, error)
 }
 
-// repositoryMemory is used to store the data for users
-type repositoryMemory struct {
-	users User
+// User is created when the Telegram Bot starts for a new user.
+type User struct {
+	ID        int `json:"-"`
+	Locations Location
 }
 
-func (r *repositoryMemory) Create(user User) (*User, error) {
-	u := user
-	if u != nil {
-		return &u, nil
+// Location stores the GPS coordinates from the user
+type Location struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
+// dbMemory stores user data in memory
+type dbMemory struct {
+	users []User
+}
+
+func (d *dbMemory) Create(user User) (*User, error) {
+	d.users = append(d.users, user)
+	return &user, nil
+}
+
+func (d *dbMemory) Delete(id int) error {
+
+	for idx, u := range d.users {
+		if u.ID == id {
+			d.users = append(d.users[:idx], d.users[idx+1:]...)
+			return nil
+		}
 	}
-	return nil, errors.New("user not created")
+	return errors.New("User not found")
 }
 
-func (r *repositoryMemory) AddLocation(l Location) (*Location, error) {
-	ul := l
-	if ul != nil {
-		return nil, errors.New("location not added")
+func (d *dbMemory) Update(id int, user User) (*User, error) {
+	for idx, u := range d.users {
+		if u.ID == id {
+			d.users[idx] = user
+		}
 	}
-	return &ul, nil
+	return &user, nil
 }
 
-func InMemoryRepository(user User) Repository {
-	return &repositoryMemory{
-		users: user,
+// NewRepository initializer which stores users data
+func NewRepository(initial []User) UserRepository {
+	return &dbMemory{
+		users: initial,
 	}
+}
+
+func main() {
+	// initialize memory
+	users := make([]User, 0)
+	dbM := NewRepository(users)
+	fmt.Println("Test [001] === Initialize", dbM)
+
+	newUser := User{
+		ID: 1,
+		Locations: Location{
+			Latitude:  1.111111,
+			Longitude: 1.111111,
+		},
+	}
+	dbM.Create(newUser)
+	fmt.Println("Test [002] === Add User 1", dbM)
+	newUser2 := User{
+		ID: 2,
+		Locations: Location{
+			Latitude:  2.222222,
+			Longitude: 2.222222,
+		},
+	}
+
+	dbM.Create(newUser2)
+	fmt.Println("Test [003] === Add User 2", dbM)
+
+	dbM.Delete(1)
+	fmt.Println("Test [004] === Removed 1 ", dbM)
+
+	dbM.Create(newUser)
+	fmt.Println("Test [005] === Add User 1", dbM)
+
+	dbM.Update(1, newUser2)
+	fmt.Println("Test [006] === Update User 1 to User 2 ", dbM)
 }
