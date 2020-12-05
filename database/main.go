@@ -2,7 +2,6 @@ package db
 
 import (
 	"errors"
-	"fmt"
 )
 
 // UserRepository Interface represents the underlying implementations for the database driver
@@ -59,40 +58,4 @@ func NewRepository(initial []User) UserRepository {
 	return &dbMemory{
 		users: initial,
 	}
-}
-
-func main() {
-	// initialize memory
-	users := make([]User, 0)
-	dbM := NewRepository(users)
-	fmt.Println("Test [001] === Initialize", dbM)
-
-	newUser := User{
-		ID: 1,
-		Locations: Location{
-			Latitude:  1.111111,
-			Longitude: 1.111111,
-		},
-	}
-	dbM.Create(newUser)
-	fmt.Println("Test [002] === Add User 1", dbM)
-	newUser2 := User{
-		ID: 2,
-		Locations: Location{
-			Latitude:  2.222222,
-			Longitude: 2.222222,
-		},
-	}
-
-	dbM.Create(newUser2)
-	fmt.Println("Test [003] === Add User 2", dbM)
-
-	dbM.Delete(1)
-	fmt.Println("Test [004] === Removed 1 ", dbM)
-
-	dbM.Create(newUser)
-	fmt.Println("Test [005] === Add User 1", dbM)
-
-	dbM.Update(1, newUser2)
-	fmt.Println("Test [006] === Update User 1 to User 2 ", dbM)
 }
