@@ -10,7 +10,9 @@ Telegram Chatbot
 | ---------- | :------------: |
 | 03/12/2020 | Initial Commit |
 | 03/12/2020 | Setup Workflow |
-| 03/12/2020 |  Draft tasks   |
+| 03/12/2020 | Draft tasks    |
+| 04/12/2020 | Built the User Service   |
+| 05/12/2020 | Test the User Service |
 
 # Tasks for Project
 
