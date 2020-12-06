@@ -38,4 +38,4 @@ Telegram Chatbot
 
 # Description
 
-This repo is currently undergoing updates. The purpose of this repository is log my build progress of a Golang Telegram Chatbot.
+This repo is currently undergoing updates. The purpose of this repository is to keep a log of my build progress for a Golang Telegram Chatbot.
