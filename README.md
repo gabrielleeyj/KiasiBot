@@ -11,11 +11,12 @@ Telegram Chatbot
 | 03/12/2020 | Initial Commit |
 | 03/12/2020 | Setup Workflow |
 | 03/12/2020 | Draft tasks    |
-| 04/12/2020 | Built the User Service   |
-| 05/12/2020 | Test the User Service |
+| 04/12/2020 | Built the User Repository |
+| 05/12/2020 | Test User Repository |
+| 05/12/2020 | Built the Memory Repository |
+| 06/12/2020 | Test Memory Repository |
 
 ## Tasks for Project
-## TODO
 
 - [ ] API Gateway
   - [ ] GET
