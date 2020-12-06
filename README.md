@@ -14,20 +14,26 @@ Telegram Chatbot
 | 04/12/2020 | Built the User Service   |
 | 05/12/2020 | Test the User Service |
 
-# Tasks for Project
+## Tasks for Project
+## TODO
 
-[] - Build the Telegram Bot Code <br/>
-[X] - Create the Telegram API <br/>
-[] - Complete the Bot Handlers <br/>
-[X] - Bot Response to Send Message <br/>
-[] - Bot Response to Receive Inputs <br/>
-[] - Bot Response to Return Error <br/>
-[] - Bot Response to Queries <br/>
-[X] - Create the User Service <br/>
-[X] - Test the User Service <br/>
-[] - Create the API Gateway <br/>
-[] - Create the Client Service <br/>
-[] - Create the Remote Service <br/>
+- [ ] API Gateway
+  - [ ] GET
+  - [ ] POST
+  - [ ] PUT
+  - [ ] DELETE
+- [ ] Bot Handlers
+  - [X] Bot Response to Send Message
+  - [X] Bot Response to Receive Inputs
+  - [ ] Bot Response to Return Error
+  - [X] Bot Response to Queries
+- [X] User Respository
+  - [X] Tests
+- [X] Database Repository
+  - [X] Tests
+- [ ] Create the API Gateway
+- [ ] Client Service
+- [ ] Remote Service
 
 # Description
 
