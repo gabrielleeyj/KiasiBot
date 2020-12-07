@@ -59,7 +59,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 // of the send message request
 // https://core.telegram.org/bots/api#sendmessage
 type sendMessageReqBody struct {
-	ChatID int64  `json:"chat_id"`
+	ChatID int64  `json:"chatID"`
 	Text   string `json:"text"`
 }
 
