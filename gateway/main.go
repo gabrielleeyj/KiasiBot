@@ -58,6 +58,11 @@ type sendMessageReqBody struct {
 	Text   string `json:"text"`
 }
 
+// rtnLoc takes a chatID and sends loc data back
+func rtnLoc(chatID int64) error {
+	reqBody := &sendMessageReqBody{ChatID: chatID}
+}
+
 // sayPolo takes a chatID and sends "polo" to them
 func sayPolo(chatID int64) error {
 	// Create the request body struct
