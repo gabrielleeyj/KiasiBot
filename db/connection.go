@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,7 +20,7 @@ func ConnectDB() *mongo.Collection {
 	// main code to start connection
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb+srv://Kayige:Kayige26387@kiasibot.egzpq.mongodb.net/db?retryWrites=true&w=majority"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("DB_URI")))
 	if err != nil {
 		log.Fatal(err)
 	}
