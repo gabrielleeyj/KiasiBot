@@ -100,7 +100,7 @@ func (d *dbMemory) GetPosts() error {
 	c := db.ConnectDB()
 
 	// bson.D{}, pass empty filter to get all the data.
-	cur, err := c.Find(context.TODO(), bson.D{})
+	cur, err := c.Find(context.TODO(), bson.D{{}}.Map())
 	if err != nil {
 		fmt.Println("Finding all documents ERROR: ", err)
 	}
@@ -111,9 +111,9 @@ func (d *dbMemory) GetPosts() error {
 
 	// iterate through the cursor and deocode each entry
 	for cur.Next(context.TODO()) {
-		var result bson.M
+		var post bson.M
 
-		err := cur.Decode(&result)
+		err := cur.Decode(&post)
 		if err != nil {
 			log.Fatal(err)
 		}
