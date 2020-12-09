@@ -37,9 +37,8 @@ Telegram Chatbot
   - [x] Tests
 - [x] Database Repository
   - [x] Tests
-- [ ] Create the API Gateway
-- [ ] Client Service
-- [ ] Remote Service
+- [ ] Create the API Gateway for Frontend
+- [ ] Build the Web Frontend Map
 
 # Description
 

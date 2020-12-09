@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -21,31 +22,13 @@ func TestPost(t *testing.T) {
 	CreatePost(newPost)
 }
 
-/* this is the data model example for get location
-"result": [
-                {
-                        "update_id": 524107517, // text message id for editMessage to work
-                        "message": {
-                                "message_id": 205,
-                                "from": {
-                                        "id": <<int>>,
-                                        "is_bot": false,
-                                        "first_name": <<string>>,
-                                        "username": <<string>>,
-                                        "language_code": "en"
-                                },
-                                "chat": {
-                                        "id": <<int>>,
-                                        "first_name": <<string>>,
-                                        "username": <<string>>,
-                                        "type": "private"
-                                },
-                                "date": 1607481539, // stored in int
-                                "location": {
-                                        "latitude": 1.327737,
-                                        "longitude": 103.889892
-                                }
-                        }
-                }
-		]
-*/
+func TestGet(t *testing.T) {
+	// initialize post model
+	posts := make([]Post, 0)
+	dbM := NewGetHandler(posts)
+
+	// call the function to Get Posts from MongoDB
+	r := dbM.GetPosts()
+	fmt.Println("Data: ", r)
+
+}

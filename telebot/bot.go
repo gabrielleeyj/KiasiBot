@@ -1,4 +1,4 @@
-package main
+package telebot
 
 import (
 	"KiasiBot/model"
@@ -7,19 +7,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv"
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-// initialize check for .env file existence
-func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error Loading .env file")
-	}
-}
-
-func main() {
+// StartBot invokes the connection command
+func StartBot() {
 	// bot settings
 	b, err := tb.NewBot(tb.Settings{
 		// You can also set custom API URL.

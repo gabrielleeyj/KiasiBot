@@ -1,4 +1,4 @@
-package main
+package telebot
 
 import tb "gopkg.in/tucnak/telebot.v2"
 

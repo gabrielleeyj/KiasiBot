@@ -2,18 +2,24 @@ package db
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error Loading .env file")
+	}
+}
 
 // ConnectDB : helper function to connect to mongoDB database
 func ConnectDB() *mongo.Collection {
@@ -45,23 +51,4 @@ func ConnectDB() *mongo.Collection {
 	// Connect to MongoDB collection to store data.
 	collection := client.Database("db").Collection("usr")
 	return collection
-}
-
-// ErrorResponse : Error Model Response
-type ErrorResponse struct {
-	StatusCode   int    `json:"statusCode"`
-	ErrorMessage string `json:"errorMessage"`
-}
-
-// GetError helper function that uses the Error Model Response
-func GetError(err error, w http.ResponseWriter) {
-	log.Fatal(err.Error())
-	var response = ErrorResponse{
-		ErrorMessage: err.Error(),
-		StatusCode:   http.StatusInternalServerError,
-	}
-
-	message, _ := json.Marshal(response)
-	w.WriteHeader(response.StatusCode)
-	w.Write(message)
 }
