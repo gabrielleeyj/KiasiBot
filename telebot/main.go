@@ -1,6 +1,8 @@
 package main
 
 import (
+	"KiasiBot/model"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -25,44 +27,45 @@ func main() {
 		URL:     "",
 		Verbose: true,
 		Token:   os.Getenv("TELEGRAM_TOKEN"),
-		Poller:  &tb.LongPoller{Timeout: 10 * time.Second},
+		Poller:  &tb.LongPoller{Timeout: 60 * time.Second},
 	})
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
 
-	menu := tb.ReplyButton{
-		Text:     "Share Location?",
-		Location: true,
-	}
-
-	getMap := tb.ReplyButton{
-		Text: "Get Map",
-	}
-
-	b.Handle("/start", func(m *tb.Message) {
+	go b.Handle("/start", func(m *tb.Message) {
 		if !m.Private() {
 			return
 		}
-		b.Send(m.Sender, "Hello!", &tb.ReplyMarkup{
-			ReplyKeyboard:       [][]tb.ReplyButton{[]tb.ReplyButton{menu}, []tb.ReplyButton{getMap}},
-			ResizeReplyKeyboard: true,
-			OneTimeKeyboard:     true,
-		},
-		)
+		b.Send(m.Sender, "Hello!", makeButtons())
 	})
 
-	b.Handle("Get Map", func(m *tb.Message) {
+	go b.Handle("Get Map", func(m *tb.Message) {
 		b.Send(m.Sender, "https://cutt.ly/covid-chart")
 	})
+
 	// On reply button pressed (message)
-	b.Handle(tb.OnLocation, func(m *tb.Message) {
+	go b.Handle(tb.OnLocation, func(m *tb.Message) {
 		// if not private stop
 		if !m.Private() {
 			return
 		}
+		data := model.Post{
+			ChatID: m.Chat.ID,
+			Locations: model.Location{
+				Lat:  m.Location.Lat,
+				Lng:  m.Location.Lng,
+				Name: m.Chat.Username,
+			},
+			Status: "User",
+		}
+
+		fmt.Println(data)
+		model.CreatePost(data)
+		// return confirmation message
 		b.Send(m.Sender, "Received Location")
+		b.Send(m.Sender, "You may view the mapdata <a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// Starts the bot connection

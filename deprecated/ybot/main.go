@@ -39,5 +39,4 @@ func main() {
 	bot.HandleMessage("/share", app.LocTestHandler)
 	bot.HandleCallback(app.callBackHandler)
 	log.Fatal(bot.Start())
-
 }
