@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Post struct represents the structure of the data to Post.
 type Post struct {
 	ChatID    int64     `json:"-" bson:"ChatID,omitempty"`
 	CreatedAt time.Time `json:"createdAt,omitempty" bson:"createdAt"`
@@ -15,6 +16,7 @@ type Post struct {
 	Status    string `json:"status,omitempty" bson:"status,omitempty"`
 }
 
+// Location is the data associated with the Post struct
 type Location struct {
 	Lat  float32 `json:"lat" bson:"lat"`
 	Lng  float32 `json:"lng" bson:"lng"`

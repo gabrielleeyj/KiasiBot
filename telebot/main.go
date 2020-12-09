@@ -42,7 +42,7 @@ func main() {
 	})
 
 	go b.Handle("Get Map", func(m *tb.Message) {
-		b.Send(m.Sender, "https://cutt.ly/covid-chart")
+		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// On reply button pressed (message)
@@ -65,7 +65,7 @@ func main() {
 		model.CreatePost(data)
 		// return confirmation message
 		b.Send(m.Sender, "Received Location")
-		b.Send(m.Sender, "You may view the mapdata <a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
+		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// Starts the bot connection
