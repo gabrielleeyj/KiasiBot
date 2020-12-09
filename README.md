@@ -6,32 +6,37 @@ Telegram Chatbot
 
 # Updates
 
-| Date       |    Updates     |
-| ---------- | :------------: |
-| 03/12/2020 | Initial Commit |
-| 03/12/2020 | Setup Workflow |
-| 03/12/2020 | Draft tasks    |
-| 04/12/2020 | Built the User Repository |
-| 05/12/2020 | Test User Repository |
-| 05/12/2020 | Built the Memory Repository |
-| 06/12/2020 | Test Memory Repository |
+| Date       |               Updates                |
+| ---------- | :----------------------------------: |
+| 03/12/2020 |            Initial Commit            |
+| 03/12/2020 |            Setup Workflow            |
+| 03/12/2020 |             Draft tasks              |
+| 04/12/2020 |      Built the User Repository       |
+| 05/12/2020 |         Test User Repository         |
+| 05/12/2020 |     Built the Memory Repository      |
+| 06/12/2020 |        Test Memory Repository        |
+| 07/12/2020 |  Built & Test Connection to MongoDB  |
+| 08/12/2020 | Built & Test POST request to MongoDB |
+| 09/12/2020 |      Initial Telegram Bot code       |
 
 ## Tasks for Project
 
-- [ ] API Gateway
-  - [ ] GET
-  - [ ] POST
-  - [ ] PUT
-  - [ ] DELETE
-- [ ] Bot Handlers
-  - [X] Bot Response to Send Message
-  - [X] Bot Response to Receive Inputs
-  - [ ] Bot Response to Return Error
-  - [X] Bot Response to Queries
-- [X] User Respository
-  - [X] Tests
-- [X] Database Repository
-  - [X] Tests
+- [x] Mongo Atlas Gateway
+  - [x] Connection
+    - [x] Tests
+  - [x] POST
+    - [x] Tests
+- [x] Bot Handlers
+  - [x] Bot Response to Send Message
+  - [x] Bot Response to Receive Inputs
+  - [x] Bot Response to Return Error
+  - [x] Bot Response to Queries
+  - [ ] Bot Request for Location Data
+  - [ ] Bot POST Data to MongoDB Atlas Gateway
+- [x] User Respository
+  - [x] Tests
+- [x] Database Repository
+  - [x] Tests
 - [ ] Create the API Gateway
 - [ ] Client Service
 - [ ] Remote Service
