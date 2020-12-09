@@ -31,8 +31,8 @@ Telegram Chatbot
   - [x] Bot Response to Receive Inputs
   - [x] Bot Response to Return Error
   - [x] Bot Response to Queries
-  - [ ] Bot Request for Location Data
-  - [ ] Bot POST Data to MongoDB Atlas Gateway
+  - [x] Bot Request for Location Data
+  - [x] Bot POST Data to MongoDB Atlas Gateway
 - [x] User Respository
   - [x] Tests
 - [x] Database Repository
