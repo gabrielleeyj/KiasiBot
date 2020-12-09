@@ -18,9 +18,9 @@ type Location struct {
 	Lng float64 `json:"lng" bson:"lng"`
 }
 
-func NewPost(p Post) *Post {
-	return &Post{}
-}
+// func NewPost(p Post) *Post {
+// 	return &Post{}
+// }
 
 // CreatePost method to post to databse
 func CreatePost(post Post) error {

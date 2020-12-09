@@ -26,10 +26,12 @@ func makeButtons() *tbot.InlineKeyboardMarkup {
 }
 
 func locButton() *tbot.ReplyKeyboardMarkup {
-	btnLocation := tbot.KeyboardButton{Text: "Location", RequestLocation: true}
+	btnLocation := tbot.KeyboardButton{Text: "Give me your location!", RequestLocation: true}
+
 	return &tbot.ReplyKeyboardMarkup{
 		Keyboard: [][]tbot.KeyboardButton{
 			[]tbot.KeyboardButton{btnLocation},
 		},
+		OneTimeKeyboard: true,
 	}
 }

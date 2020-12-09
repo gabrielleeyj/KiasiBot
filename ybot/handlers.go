@@ -44,14 +44,15 @@ func (a *application) LocationHandler(m *tbot.Message) {
 
 func (a *application) LocTestHandler(m *tbot.Message) {
 	button := locButton()
-	a.client.SendMessage(m.Chat.ID, "Send Location?", tbot.OptReplyKeyboardMarkup(button))
+	a.client.SendMessage(m.Chat.ID, "Shared Location", tbot.OptReplyKeyboardMarkup(button))
+
 	// a.client.DeleteMessage(cq.Message.Chat.ID, cq.Message.MessageID)
 	// a.client.SendLocation(m.Chat.ID, 1.352083, 103.819839)
+	// a.client.SendLocation(m.Chat.ID, m.Location.Latitude, m.Location.Longitude, tbot.OptReplyKeyboardMarkup(button))
 }
 
 func (a *application) callBackHandler(cq *tbot.CallbackQuery) {
 	// options := cq.Data
 	msg := cq.Data
-
 	a.client.SendMessage(cq.Message.Chat.ID, msg)
 }
