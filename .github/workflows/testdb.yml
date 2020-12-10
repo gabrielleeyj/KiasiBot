@@ -1,4 +1,4 @@
-name: Test Database
+name: Automated Testing
 
 on:
   push:
@@ -8,8 +8,8 @@ jobs:
   testdb:
     name: Setup ubuntu
     runs-on: ubuntu-latest
-    env:
-        DB_URI: ${{ secrets.DB_URI }}
+    	env:
+    		working-directory: ./db
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -28,8 +28,9 @@ jobs:
         run: |
           go get go.mongodb.org/mongo-driver/mongo
       
-      - if: ${{success()}}
-        name: run test
+      - name: Test Database
+        env:
+          DB_URI: ${{ secrets.DB_URI }}
         run: |
-          cd db
-          go test .
+				go test . -v           
+
