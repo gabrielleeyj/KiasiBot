@@ -18,7 +18,7 @@ func init() {
 	}
 }
 
-/* this is the data model example for get location
+/* this is the data model example for a get location
 "result": [
                 {
                         "update_id": 524107517, // text message id for editMessage to work
@@ -57,8 +57,8 @@ type Post struct {
 	ChatID    int64     `json:"-" bson:"ChatID,omitempty"`
 	CreatedAt time.Time `json:"createdAt,omitempty" bson:"createdAt"`
 	ExpiresAt time.Time `json:"expiresAt,omitempty" bson:"expiresAt"`
-	Locations Location
-	Status    string `json:"status,omitempty" bson:"status,omitempty"`
+	Locations Location  `json:"locations,omitempty" bson:"locations"`
+	Status    string    `json:"status,omitempty" bson:"status,omitempty"`
 }
 
 // Location is the data associated with the Post struct
@@ -76,8 +76,10 @@ type dbMemory struct {
 func CreatePost(post Post) error {
 
 	// Connect to Collection connection
-	c := db.ConnectDB()
-
+	c, err := db.ConnectDB()
+	if err != nil {
+		fmt.Println("Database connection failed")
+	}
 	// set default mongodb ID  and created date
 
 	post.CreatedAt = time.Now()                          // logs time of creation
@@ -91,18 +93,22 @@ func CreatePost(post Post) error {
 	return nil
 }
 
+// NewGetHandler is to allow the data to be retrieved and stored into memory.
 func NewGetHandler(initial []Post) UserRepository {
 	return &dbMemory{posts: initial}
 }
 
+// GetPosts is a method to retrieve all documents in MongoDB and populate the data back into the memory.
 func (d *dbMemory) GetPosts() error {
 	// Connect to Collection connection
-	c := db.ConnectDB()
-
+	c, err := db.ConnectDB()
+	if err != nil {
+		fmt.Println("Database connection failed")
+	}
 	// bson.D{}, pass empty filter to get all the data.
 	cur, err := c.Find(context.TODO(), bson.D{{}}.Map())
 	if err != nil {
-		fmt.Println("Finding all documents ERROR: ", err)
+		fmt.Println("ERROR Finding all documents: ", err)
 	}
 
 	// defer after execution of a function until the surrounding function returns.
@@ -111,14 +117,15 @@ func (d *dbMemory) GetPosts() error {
 
 	// iterate through the cursor and deocode each entry
 	for cur.Next(context.TODO()) {
+		// initializer to store the data
 		var post bson.M
 
+		// decodes the bson.D and maps it to the initializer
 		err := cur.Decode(&post)
 		if err != nil {
 			log.Fatal(err)
 		}
-
 	}
-
 	return nil
+
 }

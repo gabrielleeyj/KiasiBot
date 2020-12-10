@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"testing"
 	"time"
 )
@@ -28,8 +27,8 @@ func TestGet(t *testing.T) {
 	dbM := NewGetHandler(posts)
 
 	// call the function to Get Posts from MongoDB
-	r := dbM.GetPosts()
+	dbM.GetPosts()
 	// Test print
-	fmt.Println("Data: ", r)
-
+	// fmt.Println("Data: ", r)
+	// return r
 }
