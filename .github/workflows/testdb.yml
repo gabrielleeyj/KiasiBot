@@ -22,7 +22,7 @@ jobs:
       - name: install dependencies
         id: InstallDeps
         run: |
-	go get github.com/joho/godotenv
+go get github.com/joho/godotenv
 
       - if: ${{success()}}
         run: |
