@@ -11,11 +11,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_DB_URI: ${{ secrets.DB_URI }}
-          directory: /db      
+      - name: Env
+        env:
+          DB_URI: ${{ secrets.DB_URI }}
+    
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
