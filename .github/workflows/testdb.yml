@@ -14,9 +14,8 @@ jobs:
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-              INPUT_DEBUG: false
-              INPUT_ENVKEY_SECRET_KEY: ${{ secrets.DB_URI }}
-              file_name: .env
+          entryPoint_SECRET_KEY: ${{ secrets.DB_URI }}
+          file_name: .env
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
