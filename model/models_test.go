@@ -28,7 +28,5 @@ func TestGet(t *testing.T) {
 
 	// call the function to Get Posts from MongoDB
 	dbM.GetPosts()
-	// Test print
-	// fmt.Println("Data: ", r)
-	// return r
+
 }

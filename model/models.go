@@ -108,7 +108,7 @@ func (d *dbMemory) GetPosts() error {
 	// bson.D{}, pass empty filter to get all the data.
 	cur, err := c.Find(context.TODO(), bson.D{{}}.Map())
 	if err != nil {
-		fmt.Println("ERROR Finding all documents: ", err)
+		fmt.Println("Finding all documents ERROR: ", err)
 	}
 
 	// defer after execution of a function until the surrounding function returns.
@@ -125,6 +125,7 @@ func (d *dbMemory) GetPosts() error {
 		if err != nil {
 			log.Fatal(err)
 		}
+		fmt.Println(post)
 	}
 	return nil
 
