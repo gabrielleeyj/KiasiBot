@@ -18,13 +18,15 @@ Telegram Chatbot
 | 07/12/2020 |  Built & Test Connection to MongoDB  |
 | 08/12/2020 | Built & Test POST request to MongoDB |
 | 09/12/2020 |      Initial Telegram Bot code       |
+| 10/12/2020 |    Created GET request to MongoDB    |
 
 ## Tasks for Project
 
-- [x] Mongo Atlas Gateway
+- [x] MongoDB Atlas Gateway
   - [x] Connection
     - [x] Tests
-  - [x] POST
+  - [x] POST - posts single document
+  - [x] GET - gets all documents
     - [x] Tests
 - [x] Bot Handlers
   - [x] Bot Response to Send Message
@@ -38,7 +40,7 @@ Telegram Chatbot
 - [x] Database Repository
   - [x] Tests
 - [ ] Create the API Gateway for Frontend
-- [ ] Build the Web Frontend Map
+- [ ] Build the Web Frontend for Map
 
 # Description
 
