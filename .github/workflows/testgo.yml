@@ -18,7 +18,6 @@ jobs:
       - run: |
           cd db
           go test . -v
-      - name: Test models repository
-      - run: |
-          cd model
+          cd ..
+          cd models
           go test . -v
