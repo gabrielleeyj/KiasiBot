@@ -8,13 +8,11 @@ jobs:
   testdb:
     name: Setup ubuntu
     runs-on: ubuntu-latest
+    env:
+        DB_URI: ${{ secrets.DB_URI }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Env
-        env:
-          DB_URI: ${{ secrets.DB_URI }}
-    
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
