@@ -22,7 +22,7 @@ jobs:
       - name: install dependencies
         id: InstallDeps
         run: |
-go get github.com/joho/godotenv
+        go get github.com/joho/godotenv
 
       - if: ${{success()}}
         run: |
@@ -32,4 +32,4 @@ go get github.com/joho/godotenv
         env:
           DB_URI: ${{ secrets.DB_URI }}
         run: |
-	go test . -v
+        go test . -v
