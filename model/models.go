@@ -63,11 +63,12 @@ type Post struct {
 
 // Location is the data associated with the Post struct
 type Location struct {
-	Lat  float32 `json:"lat" bson:"lat"`
-	Lng  float32 `json:"lng" bson:"lng"`
+	Lat  float64 `json:"lat" bson:"lat"`
+	Lng  float64 `json:"lng" bson:"lng"`
 	Name string  `json:"name" bson:"name,omitempty"`
 }
 
+// stores location data into memory for reuse in http server
 type dbMemory struct {
 	posts []Post
 }
@@ -106,7 +107,7 @@ func (d *dbMemory) GetPosts() error {
 		fmt.Println("Database connection failed")
 	}
 	// bson.D{}, pass empty filter to get all the data.
-	cur, err := c.Find(context.TODO(), bson.D{{}}.Map())
+	cur, err := c.Find(context.TODO(), bson.M{})
 	if err != nil {
 		fmt.Println("Finding all documents ERROR: ", err)
 	}
@@ -115,18 +116,23 @@ func (d *dbMemory) GetPosts() error {
 	// runs cur.Close() process after cur.Next().
 	defer cur.Close(context.TODO())
 
+	// initialize memory array of posts
+	posts := d.posts
+
 	// iterate through the cursor and deocode each entry
 	for cur.Next(context.TODO()) {
+
 		// initializer to store the data
-		var post bson.M
+		var result Post
 
 		// decodes the bson.D and maps it to the initializer
-		err := cur.Decode(&post)
+		err := cur.Decode(&result)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(post)
+		posts = append(posts, result)
 	}
-	return nil
 
+	fmt.Println(posts)
+	return nil
 }

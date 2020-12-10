@@ -2,18 +2,16 @@ package model
 
 import (
 	"testing"
-	"time"
 )
 
 func TestPost(t *testing.T) {
 
 	// initialize post data
 	newPost := Post{
-		ChatID:    123151231,
-		CreatedAt: time.Now(),
+		ChatID: 0,
 		Locations: Location{
-			Lat: 1.1111111,
-			Lng: 2.2222222,
+			Lat: 1.323850,
+			Lng: 103.844560,
 		},
 		Status: "Test",
 	}

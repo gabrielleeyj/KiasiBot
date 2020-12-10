@@ -2,7 +2,9 @@ package main
 
 import (
 	"KiasiBot/db"
+	"KiasiBot/model"
 	"KiasiBot/telebot"
+	"fmt"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -30,4 +32,12 @@ func main() {
 	// fmt.Println(newPost)
 	// fmt.Println(model.CreatePost(newPost))
 
+	// initialize the model to store posts
+	posts := make([]model.Post, 0)
+	dbM := model.NewGetHandler(posts)
+
+	// call the function to Get Posts from MongoDB and stores to memeory
+	dbM.GetPosts()
+
+	fmt.Println(posts)
 }
