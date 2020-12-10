@@ -18,6 +18,3 @@ jobs:
       - run: |
           cd db
           go test . -v
-          cd ..
-          cd models
-          go test . -v
