@@ -1,11 +1,14 @@
 package db
 
 import (
-	"fmt"
+	"log"
 	"testing"
 )
 
 func TestConnection(t *testing.T) {
-	c := ConnectDB()
-	fmt.Println(c)
+	c, err := ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("%v", c)
 }
