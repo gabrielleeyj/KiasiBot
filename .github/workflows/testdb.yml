@@ -22,9 +22,9 @@ jobs:
       - name: install dependencies
         id: InstallDeps
         run: |
-        go get github.com/joho/godotenv
+go get github.com/joho/godotenv
 
-      - if: ${{success()}}
+- if: ${{success()}}
         run: |
         go get go.mongodb.org/mongo-driver/mongo
               
