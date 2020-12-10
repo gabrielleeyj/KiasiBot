@@ -1,0 +1,19 @@
+name: Test Model
+
+on:
+  push:
+    branches: main
+
+jobs:
+    testmodel:
+    name: Setup ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          goversion: "^1.15.5"
+      - run: |
+          cd model
+          go test . -v
