@@ -9,7 +9,7 @@ jobs:
     name: Setup ubuntu
     runs-on: ubuntu-latest
     	env:
-    		working-directory: ./db
+    	working-directory: ./db
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
