@@ -23,7 +23,7 @@ jobs:
         id: InstallDeps
         run: |
 	go get github.com/joho/godotenv;
-      
+
       - if: ${{success()}}
         run: |
           go get go.mongodb.org/mongo-driver/mongo
@@ -32,5 +32,4 @@ jobs:
         env:
           DB_URI: ${{ secrets.DB_URI }}
         run: |
-	go test . -v           
-
+	go test . -v
