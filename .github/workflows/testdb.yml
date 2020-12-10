@@ -5,15 +5,29 @@ on:
     branches: main
 
 jobs:
-  my-job:
+  testdb:
     name: Setup ubuntu
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
       - uses: actions/checkout@v2
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
           go-version: "^1.15.5" # Get latest Go version to download (if necessary) and use.
-      - run: |
+      - name: run version Check
+        run: go version
+      - name: install dependencies
+        id: InstallDeps
+        run: |
+          go get github.com/joho/godotenv;
+      
+      - if: ${{success()}}
+        run: |
+          go get go.mongodb.org/mongo-driver/mongo
+      
+      - if: ${{success()}}
+        name: run test
+        run: |
           cd db
           go test .
