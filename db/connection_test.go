@@ -17,7 +17,7 @@ func TestConnection(t *testing.T) {
 func TestSession(t *testing.T) {
 	// initialize the client connection.
 	conn := NewSession()
-	c, err := conn.Session()
+	c, err := conn.Start()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,7 +27,7 @@ func TestSession(t *testing.T) {
 func TestDatabase(t *testing.T) {
 	// initialize the client connection.
 	conn := NewSession()
-	c, err := conn.Session()
+	c, err := conn.Start()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,7 +45,7 @@ func TestDatabase(t *testing.T) {
 func TestCollection(t *testing.T) {
 	// initialize the client connection.
 	conn := NewSession()
-	c, err := conn.Session()
+	c, err := conn.Start()
 	if err != nil {
 		log.Fatal(err)
 	}

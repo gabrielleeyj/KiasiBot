@@ -13,21 +13,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
+// ConnectionRepository manages all the methods required for a connection
 type ConnectionRepository interface {
-	Session() (*mongo.Client, error)
+	Start() (*mongo.Client, error)
 	Database(name string) (*mongo.Database, error)
 	Collection(name string) (*mongo.Collection, error)
 }
+
+// MongoDB implements the ConnectionRepository interface.
 type MongoDB struct {
 	Client *mongo.Client
 	DB     *mongo.Database
 	Coll   *mongo.Collection
 }
 
-type Connection struct {
-	app *MongoDB
-}
-
+// init checks for the .env file
 func init() {
 	err := godotenv.Load()
 	if err != nil {
@@ -35,10 +35,11 @@ func init() {
 	}
 }
 
+// Connect combines the layers required to connect MongoDB
 func Connect(database, collection string) (*mongo.Collection, error) {
 	// initialize the client connection.
 	conn := NewSession()
-	c, err := conn.Session()
+	c, err := conn.Start()
 	if err != nil {
 		return nil, err
 	}
@@ -59,12 +60,13 @@ func Connect(database, collection string) (*mongo.Collection, error) {
 	return coll, nil
 }
 
+// NewSession starts the mongoDB client session
 func NewSession() *MongoDB {
 	return &MongoDB{}
 }
 
-// ConnectDB : helper function to connect to mongoDB database
-func (m *MongoDB) Session() (*mongo.Client, error) {
+// Start connects to mongoDB database client layer
+func (m *MongoDB) Start() (*mongo.Client, error) {
 	// main code to start connection
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -95,19 +97,24 @@ func (m *MongoDB) Session() (*mongo.Client, error) {
 	return client, nil
 }
 
+// NewDatabase starts a new database connection
 func NewDatabase(client *mongo.Client) ConnectionRepository {
 	return &MongoDB{Client: client}
 }
+
+// Database returns the database connection
 func (m *MongoDB) Database(name string) (*mongo.Database, error) {
 	db := m.Client.Database(name)
 	fmt.Println("Connected to Datbase: ", name)
 	return db, nil
 }
 
+// NewCollection starts a new collection
 func NewCollection(db *mongo.Database) ConnectionRepository {
 	return &MongoDB{DB: db}
 }
 
+// Collection returns the collection connection
 func (m *MongoDB) Collection(name string) (*mongo.Collection, error) {
 	db := m.DB
 	collection := db.Collection(name)
