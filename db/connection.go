@@ -69,14 +69,20 @@ func NewSession() *MongoDB {
 func (m *MongoDB) Start() (*mongo.Client, error) {
 	// main code to start connection
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+
 	defer cancel()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("DB_URI")))
 	if err != nil {
 		return nil, err
 	}
 
+	defer func() {
+		if err = client.Disconnect(ctx); err != nil {
+			panic(err)
+		}
+	}()
 	// ping cluster to check connection status
-	err = client.Ping(context.TODO(), readpref.Primary())
+	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
 		return nil, err
 	}
@@ -88,12 +94,6 @@ func (m *MongoDB) Start() (*mongo.Client, error) {
 	// 	log.Fatal(err)
 	// }
 	// fmt.Println(databases)
-
-	// No errors show success message
-	fmt.Println("Connected to MongoDB Client!")
-
-	// Connect to MongoDB collection for data storage
-	// database := client.Database("db")
 	return client, nil
 }
 
@@ -105,7 +105,6 @@ func NewDatabase(client *mongo.Client) ConnectionRepository {
 // Database returns the database connection
 func (m *MongoDB) Database(name string) (*mongo.Database, error) {
 	db := m.Client.Database(name)
-	fmt.Println("Connected to Datbase: ", name)
 	return db, nil
 }
 
@@ -118,6 +117,5 @@ func NewCollection(db *mongo.Database) ConnectionRepository {
 func (m *MongoDB) Collection(name string) (*mongo.Collection, error) {
 	db := m.DB
 	collection := db.Collection(name)
-	fmt.Println("Connected to Collection: ", name)
 	return collection, nil
 }
