@@ -4,19 +4,10 @@ import (
 	"KiasiBot/db"
 	"context"
 	"fmt"
-	"log"
 	"time"
 
-	"github.com/joho/godotenv"
-	"gopkg.in/mgo.v2/bson"
+	"go.mongodb.org/mongo-driver/bson"
 )
-
-func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error Loading .env file")
-	}
-}
 
 /* this is the data model example for a get location
 "result": [
@@ -47,9 +38,10 @@ func init() {
 		]
 */
 
-// UserRepository sets the methods for manipulation of data
-type UserRepository interface {
-	GetPosts() error
+// PostRepository sets the methods for manipulation of data
+type PostRepository interface {
+	GetAll() ([]Post, error)
+	Create(post Post) (*Post, error)
 }
 
 // Post struct represents the structure of the data to Post.
@@ -68,59 +60,70 @@ type Location struct {
 	Name string  `json:"name" bson:"name,omitempty"`
 }
 
-// stores location data into memory for reuse in http server
-type dbMemory struct {
-	posts []Post
+// Mongo struct represents the collection and structure for the PostRepository.
+type Mongo struct {
+	post Post
 }
 
-// CreatePost method to post to database cloud
-func CreatePost(post Post) error {
+var (
+	ctx        = context.TODO()
+	database   = "db"
+	collection = "usr"
+)
 
-	// Connect to Collection connection
-	c, err := db.ConnectDB()
+// NewCreatePostRepository initializes the Create function to post into the database
+func NewCreatePostRepository(post Post) PostRepository {
+	return &Mongo{post: post}
+}
+
+// Create method to post to database cloud
+func (m *Mongo) Create(post Post) (*Post, error) {
+	// initialize the database connection.
+	collection, err := db.Connect(database, collection)
 	if err != nil {
-		fmt.Println("Database connection failed")
+		return nil, err
 	}
-	// set default mongodb ID  and created date
 
 	post.CreatedAt = time.Now()                          // logs time of creation
 	post.ExpiresAt = time.Now().Add(time.Hour * 24 * 15) // adds 15 days from creation
 	// Insert post to mongodb
-	insertResult, err := c.InsertOne(context.TODO(), post)
+	insertResult, err := collection.InsertOne(ctx, &post)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	fmt.Println("Inserted Post: ", insertResult.InsertedID)
-	return nil
+	return &post, nil
 }
 
-// NewGetHandler is to allow the data to be retrieved and stored into memory.
-func NewGetHandler(initial []Post) UserRepository {
-	return &dbMemory{posts: initial}
+// NewGetAllPostRepository initalizes the GetAll function to retrieve all the posts from the database
+func NewGetAllPostRepository() PostRepository {
+	return &Mongo{}
 }
 
-// GetPosts is a method to retrieve all documents in MongoDB and populate the data back into the memory.
-func (d *dbMemory) GetPosts() error {
-	// Connect to Collection connection
-	c, err := db.ConnectDB()
+// GetAll is a method to retrieve all documents in MongoDB and populate the data back into the memory.
+func (m *Mongo) GetAll() ([]Post, error) {
+
+	// initialize the database connection.
+	collection, err := db.Connect(database, collection)
 	if err != nil {
-		fmt.Println("Database connection failed")
+		return nil, err
 	}
-	// bson.D{}, pass empty filter to get all the data.
-	cur, err := c.Find(context.TODO(), bson.M{})
+
+	// bson.M{}, pass an empty filter to get all the data.
+	cur, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		fmt.Println("Finding all documents ERROR: ", err)
 	}
 
 	// defer after execution of a function until the surrounding function returns.
 	// runs cur.Close() process after cur.Next().
-	defer cur.Close(context.TODO())
+	defer cur.Close(ctx)
 
-	// initialize memory array of posts
-	posts := d.posts
+	// initialize the post array
+	posts := make([]Post, 0)
 
 	// iterate through the cursor and deocode each entry
-	for cur.Next(context.TODO()) {
+	for cur.Next(ctx) {
 
 		// initializer to store the data
 		var result Post
@@ -128,11 +131,12 @@ func (d *dbMemory) GetPosts() error {
 		// decodes the bson.D and maps it to the initializer
 		err := cur.Decode(&result)
 		if err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
 		posts = append(posts, result)
 	}
-
+	// for testing
 	fmt.Println(posts)
-	return nil
+
+	return posts, nil
 }

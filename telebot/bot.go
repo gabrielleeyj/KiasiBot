@@ -23,22 +23,21 @@ func StartBot() {
 	})
 	if err != nil {
 		log.Fatal(err)
-		return
 	}
 
-	go b.Handle("/start", func(m *tb.Message) {
+	b.Handle("/start", func(m *tb.Message) {
 		if !m.Private() {
 			return
 		}
 		b.Send(m.Sender, "Hello!", makeButtons())
 	})
 
-	go b.Handle("Get Map", func(m *tb.Message) {
+	b.Handle("Get Map", func(m *tb.Message) {
 		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// On reply button pressed (message)
-	go b.Handle(tb.OnLocation, func(m *tb.Message) {
+	b.Handle(tb.OnLocation, func(m *tb.Message) {
 		// if not private stop
 		if !m.Private() {
 			return
@@ -54,7 +53,8 @@ func StartBot() {
 		}
 
 		fmt.Println(data)
-		model.CreatePost(data)
+		// c := model.NewCreatePostRepository(context.TODO(), data)
+		// c.Create(context.TODO(), data)
 		// return confirmation message
 		b.Send(m.Sender, "Received Location")
 		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
