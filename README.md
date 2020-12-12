@@ -7,19 +7,21 @@ Telegram Chatbot
 
 # Updates
 
-| Date       |               Updates                |
-| ---------- | :----------------------------------: |
-| 03/12/2020 |            Initial Commit            |
-| 03/12/2020 |            Setup Workflow            |
-| 03/12/2020 |             Draft tasks              |
-| 04/12/2020 |      Built the User Repository       |
-| 05/12/2020 |         Test User Repository         |
-| 05/12/2020 |     Built the Memory Repository      |
-| 06/12/2020 |        Test Memory Repository        |
-| 07/12/2020 |  Built & Test Connection to MongoDB  |
-| 08/12/2020 | Built & Test POST request to MongoDB |
-| 09/12/2020 |      Initial Telegram Bot code       |
-| 10/12/2020 |    Created GET request to MongoDB    |
+| Date       |                         Updates                         |
+| ---------- | :-----------------------------------------------------: |
+| 03/12/2020 |                     Initial Commit                      |
+| 03/12/2020 |                     Setup Workflow                      |
+| 03/12/2020 |                       Draft tasks                       |
+| 04/12/2020 |                Built the User Repository                |
+| 05/12/2020 |                  Test User Repository                   |
+| 05/12/2020 |               Built the Memory Repository               |
+| 06/12/2020 |                 Test Memory Repository                  |
+| 07/12/2020 |           Built & Test Connection to MongoDB            |
+| 08/12/2020 |          Built & Test POST request to MongoDB           |
+| 09/12/2020 |                Initial Telegram Bot code                |
+| 10/12/2020 |             Created GET request to MongoDB              |
+| 11/12/2020 |           Refactor Connection & Post Service            |
+| 12/12/2020 | Completed Refactoring, Start build for HTTP Map Service |
 
 ## Tasks for Project
 
@@ -40,8 +42,11 @@ Telegram Chatbot
   - [x] Tests
 - [x] Database Repository
   - [x] Tests
-- [ ] Create the API Gateway for Frontend
+- [x] Create the HTTP Service for Frontend
 - [ ] Build the Web Frontend for Map
+  - [x] Retrieve the data from MongoDB
+    - [ ] Populate the retrieved data to Map Service
+  - [x] Import the Map Service JS package
 
 # Description
 
