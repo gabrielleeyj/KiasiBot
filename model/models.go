@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 /* this is the data model example for a get location
@@ -65,7 +64,6 @@ type Location struct {
 // PostStorage struct represents the collection and structure for the PostRepository.
 type PostStorage struct {
 	post Post
-	col  *mongo.Collection
 }
 
 var (
