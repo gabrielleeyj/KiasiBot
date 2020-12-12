@@ -4,9 +4,11 @@ import (
 	"KiasiBot/db"
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 /* this is the data model example for a get location
@@ -60,9 +62,10 @@ type Location struct {
 	Name string  `json:"name" bson:"name,omitempty"`
 }
 
-// Mongo struct represents the collection and structure for the PostRepository.
-type Mongo struct {
+// PostStorage struct represents the collection and structure for the PostRepository.
+type PostStorage struct {
 	post Post
+	col  *mongo.Collection
 }
 
 var (
@@ -73,11 +76,11 @@ var (
 
 // NewCreatePostRepository initializes the Create function to post into the database
 func NewCreatePostRepository(post Post) PostRepository {
-	return &Mongo{post: post}
+	return &PostStorage{post: post}
 }
 
 // Create method to post to database cloud
-func (m *Mongo) Create(post Post) (*Post, error) {
+func (p *PostStorage) Create(post Post) (*Post, error) {
 	// initialize the database connection.
 	collection, err := db.Connect(database, collection)
 	if err != nil {
@@ -97,22 +100,46 @@ func (m *Mongo) Create(post Post) (*Post, error) {
 
 // NewGetAllPostRepository initalizes the GetAll function to retrieve all the posts from the database
 func NewGetAllPostRepository() PostRepository {
-	return &Mongo{}
+	return &PostStorage{}
 }
 
 // GetAll is a method to retrieve all documents in MongoDB and populate the data back into the memory.
-func (m *Mongo) GetAll() ([]Post, error) {
+func (p *PostStorage) GetAll() ([]Post, error) {
 
-	// initialize the database connection.
-	collection, err := db.Connect(database, collection)
+	// initialize the client connection.
+	conn := db.NewSession()
+	c, err := conn.Start()
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
+	}
+	fmt.Println(c)
+
+	// initalize the database
+	newdb := db.NewDatabase(c)
+	d, err := newdb.Database("db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(d)
+
+	// initalize the collection
+	newcollection := db.NewCollection(d)
+	coll, err := newcollection.Collection("usr")
+	if err != nil {
+		log.Fatal(err)
 	}
 
+	// initialize the database connection.
+	// collection, err := db.Connect(database, collection)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
 	// bson.M{}, pass an empty filter to get all the data.
-	cur, err := collection.Find(ctx, bson.M{})
+	cur, err := coll.Find(ctx, bson.D{})
 	if err != nil {
 		fmt.Println("Finding all documents ERROR: ", err)
+		return nil, err
 	}
 
 	// defer after execution of a function until the surrounding function returns.

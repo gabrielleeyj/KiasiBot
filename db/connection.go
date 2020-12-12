@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -22,9 +23,9 @@ type ConnectionRepository interface {
 
 // MongoDB implements the ConnectionRepository interface.
 type MongoDB struct {
-	Client *mongo.Client
-	DB     *mongo.Database
-	Coll   *mongo.Collection
+	client     *mongo.Client
+	database   *mongo.Database
+	collection *mongo.Collection
 }
 
 // init checks for the .env file
@@ -76,11 +77,6 @@ func (m *MongoDB) Start() (*mongo.Client, error) {
 		return nil, err
 	}
 
-	defer func() {
-		if err = client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-	}()
 	// ping cluster to check connection status
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
@@ -88,34 +84,41 @@ func (m *MongoDB) Start() (*mongo.Client, error) {
 	}
 	fmt.Println("Ping:", err)
 
-	// check available databases and prints output
-	// databases, err := client.ListDatabaseNames(context.TODO(), bson.M{})
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(databases)
 	return client, nil
 }
 
 // NewDatabase starts a new database connection
 func NewDatabase(client *mongo.Client) ConnectionRepository {
-	return &MongoDB{Client: client}
+	return &MongoDB{client: client}
 }
 
 // Database returns the database connection
 func (m *MongoDB) Database(name string) (*mongo.Database, error) {
-	db := m.Client.Database(name)
-	return db, nil
+	d := m.client.Database(name)
+	// check available databases and prints output
+	databases, err := m.client.ListDatabaseNames(context.TODO(), bson.M{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(databases)
+	return d, nil
 }
 
 // NewCollection starts a new collection
 func NewCollection(db *mongo.Database) ConnectionRepository {
-	return &MongoDB{DB: db}
+	return &MongoDB{database: db}
 }
 
 // Collection returns the collection connection
 func (m *MongoDB) Collection(name string) (*mongo.Collection, error) {
-	db := m.DB
+	db := m.database
 	collection := db.Collection(name)
+	// check available collections and prints output
+	// check available databases and prints output
+	collections, err := db.ListCollectionNames(context.TODO(), bson.M{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(collections)
 	return collection, nil
 }
