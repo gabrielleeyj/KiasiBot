@@ -4,7 +4,6 @@ import (
 	"KiasiBot/db"
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -63,7 +62,6 @@ type Location struct {
 
 // PostStorage struct represents the collection and structure for the PostRepository.
 type PostStorage struct {
-	post Post
 }
 
 var (
@@ -73,8 +71,8 @@ var (
 )
 
 // NewCreatePostRepository initializes the Create function to post into the database
-func NewCreatePostRepository(post Post) PostRepository {
-	return &PostStorage{post: post}
+func NewCreatePostRepository() PostRepository {
+	return &PostStorage{}
 }
 
 // Create method to post to database cloud
@@ -104,37 +102,14 @@ func NewGetAllPostRepository() PostRepository {
 // GetAll is a method to retrieve all documents in MongoDB and populate the data back into the memory.
 func (p *PostStorage) GetAll() ([]Post, error) {
 
-	// initialize the client connection.
-	conn := db.NewSession()
-	c, err := conn.Start()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(c)
-
-	// initalize the database
-	newdb := db.NewDatabase(c)
-	d, err := newdb.Database("db")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(d)
-
-	// initalize the collection
-	newcollection := db.NewCollection(d)
-	coll, err := newcollection.Collection("usr")
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	// initialize the database connection.
-	// collection, err := db.Connect(database, collection)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	collection, err := db.Connect(database, collection)
+	if err != nil {
+		return nil, err
+	}
 
 	// bson.M{}, pass an empty filter to get all the data.
-	cur, err := coll.Find(ctx, bson.D{})
+	cur, err := collection.Find(ctx, bson.D{})
 	if err != nil {
 		fmt.Println("Finding all documents ERROR: ", err)
 		return nil, err
@@ -161,7 +136,7 @@ func (p *PostStorage) GetAll() ([]Post, error) {
 		posts = append(posts, result)
 	}
 	// for testing
-	fmt.Println(posts)
+	// fmt.Println(posts)
 
 	return posts, nil
 }
