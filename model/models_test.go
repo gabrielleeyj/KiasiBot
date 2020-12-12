@@ -19,7 +19,7 @@ func TestCreate(t *testing.T) {
 	}
 
 	// initialize NewCreatePostRepository with params
-	mongo := NewCreatePostRepository(newPost)
+	mongo := NewCreatePostRepository()
 
 	// call the function
 	mongo.Create(newPost)
