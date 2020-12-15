@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>COVID-19 Map</title>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="mapid"></div>
+</body>
+
+  <!-- Style to define map height -->
+  <style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  
+  html,
+  body,
+  #mapid {
+    height: 100%;
+    width: 100vw;
+  }
+
+
+</style>
+
+<script>
+
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoibWVsY2hzZWUiLCJhIjoiY2tpaGZmeHRxMDNlODJ0bXJpOXE3MmxnZSJ9.wpw5RxLlikYAFbHs7ljHlQ';
+  var map = new mapboxgl.Map({
+    container: 'mapid', // container id
+    style: 'mapbox://styles/melchsee/ckihfibig6i9z19k0nxc6fpcs',
+    center: [103.851959, 1.340270], // set starting position
+    zoom: 12 // starting zoom
+  });
+
+  // Add geolocate control to the map.
+  map.addControl(
+    new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    })
+  );
+
+map.on('load', function () {
+  
+  let mapdata = {{ .Data }}
+
+
+  for(let i = 0; i < mapdata.length; i++) {
+  if (mapdata[i].status === "User") {
+    let marker = new mapboxgl.Marker()
+    .setLngLat([mapdata[i].locations.lng, mapdata[i].locations.lat])
+    .addTo(map);
+    }
+  }
+
+});
+
+
+  // Add zoom and rotation controls to the map.
+  map.addControl(new mapboxgl.NavigationControl());
+
+
+
+</script>
+
+
+</html>
