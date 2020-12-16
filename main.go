@@ -5,6 +5,7 @@ import (
 	"KiasiBot/telebot"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -26,6 +27,10 @@ import (
 // )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	// create router handler
 	r := chi.NewRouter()
@@ -37,7 +42,7 @@ func main() {
 	r.Get("/css/*", pr.CSS("./static/css"))
 	r.Get("/js/*", pr.JavaScript("./static/js"))
 	r.Get("/json/*", pr.JSON("./static/json"))
-	log.Println("Initializing server at port 8080")
+	log.Println("Initializing server at port :", port)
 
 	// go routine to launch bot server
 	go func() {
@@ -45,9 +50,9 @@ func main() {
 
 	}()
 
-	err := http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":"+port, r)
 	if err != nil {
-		log.Fatalln("Failed to initialize server at port 8080")
+		log.Fatalln("Failed to initialize server at port", port)
 	}
 
 }
