@@ -5,7 +5,6 @@ import (
 	"KiasiBot/telebot"
 	"log"
 	"net/http"
-	"sync"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -22,12 +21,6 @@ func init() {
 
 func main() {
 
-	// create waitgroup
-	wg := new(sync.WaitGroup)
-
-	// add 2 go routines to wait group
-	wg.Add(2)
-
 	// create router handler
 	r := chi.NewRouter()
 
@@ -43,18 +36,12 @@ func main() {
 	// go routine to launch bot server
 	go func() {
 		telebot.StartBot()
-		wg.Done() // one goroutine finished
+
 	}()
 
-	// go routine to launch http server
-	go func() {
-		err := http.ListenAndServe(":8080", r)
-		if err != nil {
-			log.Fatalln("Failed to initialize server at port 8080")
-		}
-		wg.Done() // second goroutine finished
-	}()
+	err := http.ListenAndServe(":8080", r)
+	if err != nil {
+		log.Fatalln("Failed to initialize server at port 8080")
+	}
 
-	// wait until WaitGroup is done
-	wg.Wait()
 }
