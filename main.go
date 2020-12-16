@@ -15,5 +15,7 @@ func init() {
 	}
 }
 func main() {
+	// start the bot server
 	telebot.StartBot()
+
 }

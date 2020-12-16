@@ -5,3 +5,5 @@
 .env.example
 .env.local
 .env.staging
+
+server/static/json/*.geojson
