@@ -18,7 +18,6 @@ func init() {
 	if err != nil {
 		log.Fatal("Error Loading .env file")
 	}
-	telebot.StartBot()
 }
 
 func main() {
