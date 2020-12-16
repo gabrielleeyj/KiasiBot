@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -28,13 +27,13 @@ type MongoDB struct {
 	collection *mongo.Collection
 }
 
-// init checks for the .env file
-func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error Loading .env file")
-	}
-}
+// // init checks for the .env file
+// func init() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatal("Error Loading .env file")
+// 	}
+// }
 
 // Connect combines the layers required to connect MongoDB
 func Connect(database, collection string) (*mongo.Collection, error) {

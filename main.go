@@ -5,7 +5,6 @@ import (
 	"KiasiBot/telebot"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -19,12 +18,12 @@ import (
 // 	}
 // }
 
-var (
-	// DBURI API token
-	DBURI = os.Getenv("DB_URI")
-	// TelegramToken API TOKEN
-	TelegramToken = os.Getenv("TELEGRAM_TOKEN")
-)
+// var (
+// 	// DBURI API token
+// 	DBURI = os.Getenv("DB_URI")
+// 	// TelegramToken API TOKEN
+// 	TelegramToken = os.Getenv("TELEGRAM_TOKEN")
+// )
 
 func main() {
 
