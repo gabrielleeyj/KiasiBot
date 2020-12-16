@@ -34,7 +34,7 @@ func StartBot() {
 	})
 
 	b.Handle("Get Map", func(m *tb.Message) {
-		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/covid-chart\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
+		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/WhJlc10\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// On reply button pressed (message)
