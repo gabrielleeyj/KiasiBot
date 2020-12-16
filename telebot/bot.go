@@ -64,7 +64,7 @@ func StartBot() {
 
 		fmt.Println(data)
 		// initialize the PostRepository
-		c := model.NewCreatePostRepository(data)
+		c := model.NewCreatePostRepository()
 		c.Create(data)
 
 		// return confirmation message
