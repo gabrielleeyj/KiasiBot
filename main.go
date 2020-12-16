@@ -6,27 +6,19 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
 
-// // initialize check for .env file existence
-// func init() {
-// 	err := godotenv.Load()
-// 	if err != nil {
-// 		log.Fatal("Error Loading .env file")
-// 	}
-// }
-
-// var (
-// 	// DBURI API token
-// 	DBURI = os.Getenv("DB_URI")
-// 	// TelegramToken API TOKEN
-// 	TelegramToken = os.Getenv("TELEGRAM_TOKEN")
-// )
-
 func main() {
+	wg := new(sync.WaitGroup)
+
+	// add two goroutines
+	wg.Add(2)
+
+	// check for port number
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -44,15 +36,21 @@ func main() {
 	r.Get("/json/*", pr.JSON("./static/json"))
 	log.Println("Initializing server at port :", port)
 
+	// go routine to launch http server
+	go func() {
+		err := http.ListenAndServe(":"+port, r)
+		if err != nil {
+			log.Fatalln("Failed to initialize server at port", port)
+		}
+		wg.Done()
+	}()
+
 	// go routine to launch bot server
 	go func() {
 		telebot.StartBot()
-
+		wg.Done()
 	}()
 
-	err := http.ListenAndServe(":"+port, r)
-	if err != nil {
-		log.Fatalln("Failed to initialize server at port", port)
-	}
-
+	// wait until waitgroup is done
+	wg.Wait()
 }
