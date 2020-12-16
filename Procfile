@@ -1,1 +1,1 @@
-web: bin/KiasiBot
+web: KiasiBot
