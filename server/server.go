@@ -2,7 +2,6 @@ package main
 
 import (
 	"KiasiBot/model"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -55,6 +54,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
+// GetData handles the request for getting Loc Data from MongoDB
 func GetData() (*Map, error) {
 	// initialize GetAll
 	mongodb := model.NewGetAllPostRepository()
@@ -64,10 +64,10 @@ func GetData() (*Map, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, v := range data {
-		fmt.Println("Locations: ", v.Locations)
-		fmt.Println("Status: ", v.Status)
-	}
+	// for _, v := range data {
+	// 	fmt.Println("Locations: ", v.Locations)
+	// 	fmt.Println("Status: ", v.Status)
+	// }
 
 	return &Map{Data: data}, nil
 }

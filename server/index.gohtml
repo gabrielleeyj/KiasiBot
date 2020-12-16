@@ -14,27 +14,21 @@
   <div id="mapid"></div>
 </body>
 
-  <!-- Style to define map height -->
-  <style>
-  body {
-    padding: 0;
-    margin: 0;
-  }
-  
-  html,
-  body,
-  #mapid {
-    height: 100%;
-    width: 100vw;
-  }
+<style>
+body {
+  padding: 0;
+  margin: 0;
+}
 
-
+html,
+body,
+#mapid {
+  height: 100%;
+  width: 100vw;
+}
 </style>
-
 <script>
-
-
-  mapboxgl.accessToken = 'pk.eyJ1IjoibWVsY2hzZWUiLCJhIjoiY2tpaGZmeHRxMDNlODJ0bXJpOXE3MmxnZSJ9.wpw5RxLlikYAFbHs7ljHlQ';
+mapboxgl.accessToken = 'pk.eyJ1IjoibWVsY2hzZWUiLCJhIjoiY2tpaGZmeHRxMDNlODJ0bXJpOXE3MmxnZSJ9.wpw5RxLlikYAFbHs7ljHlQ';
   var map = new mapboxgl.Map({
     container: 'mapid', // container id
     style: 'mapbox://styles/melchsee/ckihfibig6i9z19k0nxc6fpcs',
@@ -52,27 +46,19 @@
     })
   );
 
-map.on('load', function () {
-  
-  let mapdata = {{ .Data }}
+  // Add zoom and rotation controls to the map.
+  map.addControl(new mapboxgl.NavigationControl());
 
 
-  for(let i = 0; i < mapdata.length; i++) {
+let mapdata = {{ .Data }}
+
+for(let i = 0; i < mapdata.length; i++) {
   if (mapdata[i].status === "User") {
     let marker = new mapboxgl.Marker()
     .setLngLat([mapdata[i].locations.lng, mapdata[i].locations.lat])
     .addTo(map);
     }
   }
-
-});
-
-
-  // Add zoom and rotation controls to the map.
-  map.addControl(new mapboxgl.NavigationControl());
-
-
-
 </script>
 
 
