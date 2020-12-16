@@ -1,1 +1,2 @@
-web: KiasiBot
+web: bin/KiasiBot
+worker: server

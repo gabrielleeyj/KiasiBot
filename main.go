@@ -5,19 +5,26 @@ import (
 	"KiasiBot/telebot"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/joho/godotenv"
 )
 
-// initialize check for .env file existence
-func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error Loading .env file")
-	}
-}
+// // initialize check for .env file existence
+// func init() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatal("Error Loading .env file")
+// 	}
+// }
+
+var (
+	// DBURI API token
+	DBURI = os.Getenv("DB_URI")
+	// TelegramToken API TOKEN
+	TelegramToken = os.Getenv("TELEGRAM_TOKEN")
+)
 
 func main() {
 
