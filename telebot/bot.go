@@ -30,11 +30,11 @@ func StartBot() {
 		if !m.Private() {
 			return
 		}
-		b.Send(m.Sender, "Hello!", makeButtons())
+		b.Send(m.Sender, "Hello! I'm KiasiBot a community-based location sharing bot.", makeButtons())
 	})
 
 	b.Handle("Get Map", func(m *tb.Message) {
-		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/WhJlc10\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
+		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://vast-mountain-90552.herokuapp.com\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// On reply button pressed (message)
@@ -69,7 +69,7 @@ func StartBot() {
 
 		// return confirmation message
 		b.Send(m.Sender, "Received Location")
-		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://cutt.ly/WhJlc10\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
+		b.Send(m.Sender, "You may view the mapdata 📍<a href=\"https://vast-mountain-90552.herokuapp.com\">here</a>", &tb.SendOptions{ParseMode: "HTML"})
 	})
 
 	// Starts the bot connection

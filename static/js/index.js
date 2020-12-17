@@ -3,7 +3,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibWVsY2hzZWUiLCJhIjoiY2tpaGZmeHRxMDNlODJ0bXJpO
     container: 'mapid', // container id
     style: 'mapbox://styles/melchsee/ckihfibig6i9z19k0nxc6fpcs',
     center: [103.851959, 1.340270], // set starting position
-    zoom: 12 // starting zoom
+    zoom: 12, // starting zoom
   });
 
   // Add geolocate control to the map.
@@ -94,9 +94,13 @@ var pulsingDot = {
      
     map.addSource('points', {
       type: 'geojson',
-      data: '/json/pointer.geojson'
-      });
+      data: '/json/pointer.geojson',
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 20, // Radius of each cluster when clustering points (defaults to 50)
+    });
     
+    // add pulsing dot layer
     map.addLayer({
     'id': 'points',
     'type': 'symbol',
@@ -105,4 +109,7 @@ var pulsingDot = {
     'icon-image': 'pulsing-dot'
     }
     });
-    });
+
+  
+
+  });
