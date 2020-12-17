@@ -22,6 +22,7 @@ Telegram Chatbot
 | 10/12/2020 |             Created GET request to MongoDB              |
 | 11/12/2020 |           Refactor Connection & Post Service            |
 | 12/12/2020 | Completed Refactoring, Start build for HTTP Map Service |
+| 13/12/2020 | Published to Heroku                                     |
 
 ## Tasks for Project
 
@@ -43,9 +44,9 @@ Telegram Chatbot
 - [x] Database Repository
   - [x] Tests
 - [x] Create the HTTP Service for Frontend
-- [ ] Build the Web Frontend for Map
+- [x] Build the Web Frontend for Map
   - [x] Retrieve the data from MongoDB
-    - [ ] Populate the retrieved data to Map Service
+    - [x] Populate the retrieved data to Map Service
   - [x] Import the Map Service JS package
 
 # Description
